@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
 from datetime import datetime
 from ..core.database import get_db
@@ -17,6 +17,13 @@ class ProjectCreate(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
 
+    @field_validator('start_date', 'end_date', mode='before')
+    @classmethod
+    def remove_timezone(cls, v):
+        if v and isinstance(v, datetime) and v.tzinfo:
+            return v.replace(tzinfo=None)
+        return v
+
 
 class ProjectUpdate(BaseModel):
     name: Optional[str] = None
@@ -25,6 +32,13 @@ class ProjectUpdate(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     status: Optional[ProjectStatus] = None
+
+    @field_validator('start_date', 'end_date', mode='before')
+    @classmethod
+    def remove_timezone(cls, v):
+        if v and isinstance(v, datetime) and v.tzinfo:
+            return v.replace(tzinfo=None)
+        return v
 
 
 @router.get("/")
