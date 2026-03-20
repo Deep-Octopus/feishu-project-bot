@@ -17,13 +17,13 @@ async def feishu_callback(request: Request):
     body = await request.body()
     data = await request.json()
 
+    # Decrypt if encrypted (challenge may also be encrypted)
+    if "encrypt" in data:
+        data = decrypt_event(data["encrypt"])
+
     # URL verification challenge
     if "challenge" in data:
         return {"challenge": data["challenge"]}
-
-    # Decrypt if encrypted
-    if "encrypt" in data:
-        data = decrypt_event(data["encrypt"])
 
     header = data.get("header", {})
     event_type = header.get("event_type", "")
