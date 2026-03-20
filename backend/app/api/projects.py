@@ -17,10 +17,10 @@ class ProjectCreate(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
 
-    @field_validator('start_date', 'end_date', mode='before')
+    @field_validator('start_date', 'end_date', mode='after')
     @classmethod
     def remove_timezone(cls, v):
-        if v and isinstance(v, datetime) and v.tzinfo:
+        if v and v.tzinfo:
             return v.replace(tzinfo=None)
         return v
 
@@ -33,10 +33,10 @@ class ProjectUpdate(BaseModel):
     end_date: Optional[datetime] = None
     status: Optional[ProjectStatus] = None
 
-    @field_validator('start_date', 'end_date', mode='before')
+    @field_validator('start_date', 'end_date', mode='after')
     @classmethod
     def remove_timezone(cls, v):
-        if v and isinstance(v, datetime) and v.tzinfo:
+        if v and v.tzinfo:
             return v.replace(tzinfo=None)
         return v
 
