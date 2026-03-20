@@ -27,7 +27,7 @@ class Project(Base):
     group_id = Column(String(100), unique=True, index=True)
     start_date = Column(DateTime)
     end_date = Column(DateTime)
-    status = Column(Enum(ProjectStatus), default=ProjectStatus.active)
+    status = Column(Enum(ProjectStatus, name='project_status'), default=ProjectStatus.active)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -45,7 +45,7 @@ class Task(Base):
     assignee = Column(String(100))
     plan_start = Column(DateTime)
     plan_end = Column(DateTime)
-    status = Column(Enum(TaskStatus), default=TaskStatus.not_started)
+    status = Column(Enum(TaskStatus, name='task_status'), default=TaskStatus.not_started)
     progress = Column(Float, default=0.0)
     latest_update = Column(Text)
     risk_flag = Column(Boolean, default=False)
