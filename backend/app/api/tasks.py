@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
 from datetime import datetime
 from ..core.database import get_db
@@ -18,6 +18,11 @@ class TaskCreate(BaseModel):
     plan_start: Optional[datetime] = None
     plan_end: Optional[datetime] = None
 
+    @field_validator('plan_start', 'plan_end')
+    @classmethod
+    def strip_timezone(cls, v):
+        return v.replace(tzinfo=None) if v else v
+
 
 class TaskUpdate(BaseModel):
     module: Optional[str] = None
@@ -29,6 +34,11 @@ class TaskUpdate(BaseModel):
     progress: Optional[float] = None
     latest_update: Optional[str] = None
     risk_flag: Optional[bool] = None
+
+    @field_validator('plan_start', 'plan_end')
+    @classmethod
+    def strip_timezone(cls, v):
+        return v.replace(tzinfo=None) if v else v
 
 
 @router.get("/")

@@ -57,7 +57,7 @@ def build_weekly_report_card(project_name: str, data: dict) -> dict:
     elements = [
         {"tag": "div", "text": {"tag": "lark_md", "content": f"**时间范围：** {data['week_start']} 至 {data['week_end']}"}},
         {"tag": "div", "text": {"tag": "lark_md", "content": f"**日报提交：** {data['report_count']} 条"}},
-        {"tag": "div", "text": {"tag": "lark_md", "content": f"**参与成员：** {', '.join(data['members'][:5])}"}},
+        {"tag": "div", "text": {"tag": "lark_md", "content": f"**参与成员：** {', '.join(str(m) for m in data['members'][:5] if m)}"}},
         {"tag": "div", "text": {"tag": "lark_md", "content": f"**完成任务：** {data['completed_tasks']} 项"}},
     ]
     if data.get("issues"):
