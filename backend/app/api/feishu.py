@@ -47,7 +47,10 @@ async def handle_message(event: dict):
     chat_id = msg.get("chat_id", "")
     message_id = msg.get("message_id", "")
     user_id = sender.get("sender_id", {}).get("user_id", "")
-    user_name = sender.get("sender_id", {}).get("user_id", "unknown")
+
+    from ..services.feishu_service import get_user_info
+    user_info = await get_user_info(user_id)
+    user_name = user_info.get("name", user_id)
 
     # Only respond to @mentions
     mentions = msg.get("mentions", [])
