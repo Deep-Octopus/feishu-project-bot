@@ -45,12 +45,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(feishu.router, prefix="/api/v1/feishu", tags=["飞书回调"])
-app.include_router(projects.router, prefix="/api/v1/projects", tags=["项目管理"])
-app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["任务管理"])
-app.include_router(reports.router, prefix="/api/v1/reports", tags=["日报管理"])
-app.include_router(statistics.router, prefix="/api/v1/statistics", tags=["统计分析"])
-app.include_router(config_router.router, prefix="/api/v1/config", tags=["系统配置"])
+app.include_router(feishu, prefix="/api/v1/feishu", tags=["飞书回调"])
+app.include_router(projects, prefix="/api/v1/projects", tags=["项目管理"])
+app.include_router(tasks, prefix="/api/v1/tasks", tags=["任务管理"])
+app.include_router(reports, prefix="/api/v1/reports", tags=["日报管理"])
+app.include_router(statistics, prefix="/api/v1/statistics", tags=["统计分析"])
+app.include_router(config_router, prefix="/api/v1/config", tags=["系统配置"])
 
 
 @app.get("/health")
